@@ -28,6 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::prefix('canals')->group(function () {
         Route::get('/', [CanalController::class, 'index'])
             ->name('canals.index');
+
+        Route::get('/{canal}', [CanalController::class, 'show'])
+            ->name('canals.show');
+
+        Route::post('/', [CanalController::class, 'store'])
+            ->name('canals.store');
+
+        Route::put('/{canal}', [CanalController::class, 'update'])
+            ->name('canals.update');
+
+        Route::delete('/{canal}', [CanalController::class, 'destroy'])
+            ->name('canals.destroy');
     });
 });
 
