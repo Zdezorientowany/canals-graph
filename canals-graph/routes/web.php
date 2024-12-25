@@ -29,11 +29,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CanalController::class, 'index'])
             ->name('canals.index');
 
+        Route::get('/create', [CanalController::class, 'create'])
+            ->name('canals.create');
+
+        Route::get('/{canal}/edit', [CanalController::class, 'edit'])
+            ->name('canals.edit');
+
         Route::get('/{canal}', [CanalController::class, 'show'])
             ->name('canals.show');
 
         Route::post('/', [CanalController::class, 'store'])
             ->name('canals.store');
+
 
         Route::put('/{canal}', [CanalController::class, 'update'])
             ->name('canals.update');

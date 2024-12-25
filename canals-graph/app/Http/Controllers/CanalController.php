@@ -53,6 +53,17 @@ class CanalController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @param Canal $canal
+     * @return \Inertia\Response
+     */
+    public function create(): \Inertia\Response
+    {
+        return Inertia::render('Canals/Create');
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
@@ -66,6 +77,19 @@ class CanalController extends Controller
         $result = $this->service->update($canal, $input);
 
         return redirect()->route('canals.show', $result->id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Canal $canal
+     * @return \Inertia\Response
+     */
+    public function edit(Canal $canal): \Inertia\Response
+    {
+        return Inertia::render('Canals/Edit', [
+            'canal' => $this->service->show($canal)
+        ]);
     }
 
     /**

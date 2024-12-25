@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -9,8 +9,10 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import DeleteCanalDialog from "./partials/DeleteCanalDialog";
 import { Button } from "@/components/ui/button";
 import { Plus, Eye, PencilSimple, Trash } from "@phosphor-icons/react";
+import { useState } from "react";
 type Canal = {
     id: number;
     name: string;
@@ -23,6 +25,23 @@ interface IndexProps extends InertiaProps {
 
 export default function Index() {
     const canals = usePage<IndexProps>().props.canals;
+
+    // Delete logic
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectedCanal, setSelectedCanal] = useState<Canal | null>(null);
+
+    const handleDelete = () => {
+        if (selectedCanal) {
+            router.delete(`/canals/${selectedCanal.id}`, {
+                onSuccess: () => setDeleteDialogOpen(false),
+            });
+        }
+    };
+
+    const openDeleteDialog = (canal: Canal) => {
+        setSelectedCanal(canal);
+        setDeleteDialogOpen(true);
+    };
 
     return (
         <AuthenticatedLayout
@@ -38,11 +57,18 @@ export default function Index() {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            <Button className="mx-1 mb-2">
-                                <Plus />
-                                Create
-                            </Button>
-
+                            <div className="flex items-center justify-between">
+                                <p className="text-xl font-semibold text-gray-500">
+                                    List of canals
+                                </p>
+                                <Button
+                                    className="m-2"
+                                    onClick={() => router.get("/canals/create")}
+                                >
+                                    <Plus />
+                                    Create
+                                </Button>
+                            </div>
                             {canals.length === 0 ? (
                                 <Alert className="mb-4">
                                     <AlertTitle>No canals available</AlertTitle>
@@ -51,15 +77,15 @@ export default function Index() {
                                 </Alert>
                             ) : (
                                 <Table>
-                                    <TableHeader>
+                                    <TableHeader className="bg-gray-100">
                                         <TableRow>
                                             <TableHead className="w-[100px]">
                                                 ID
                                             </TableHead>
-                                            <TableHead>Name</TableHead>
-                                            <TableHead>Clients</TableHead>
+                                            <TableHead>NAME OF CANAL</TableHead>
+                                            <TableHead>CLIENTS</TableHead>
                                             <TableHead className="w-[200px]">
-                                                Actions
+                                                ACTIONS
                                             </TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -75,37 +101,44 @@ export default function Index() {
                                                 <TableCell>
                                                     {canal.clients}
                                                 </TableCell>
-                                                <TableCell className="flex items-center space-x-2">
+                                                <TableCell className="flex justify-end space-x-2">
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
                                                         className="mr-2"
+                                                        onClick={() =>
+                                                            router.get(
+                                                                `/canals/${canal.id}`
+                                                            )
+                                                        }
                                                     >
-                                                        <Eye
-                                                            size={20}
-                                                            className="mr-1"
-                                                        />
+                                                        <Eye />
                                                         Show
                                                     </Button>
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
                                                         className="mr-2"
+                                                        onClick={() =>
+                                                            router.visit(
+                                                                `/canals/${canal.id}/edit`
+                                                            )
+                                                        }
                                                     >
-                                                        <PencilSimple
-                                                            size={20}
-                                                            className="mr-1"
-                                                        />
+                                                        <PencilSimple />
                                                         Edit
                                                     </Button>
                                                     <Button
-                                                        variant="destructive"
+                                                        className="text-red-500 hover:bg-red-400 hover:text-gray-100"
+                                                        variant="ghost"
                                                         size="sm"
+                                                        onClick={() =>
+                                                            openDeleteDialog(
+                                                                canal
+                                                            )
+                                                        }
                                                     >
-                                                        <Trash
-                                                            size={20}
-                                                            className="mr-1"
-                                                        />
+                                                        <Trash />
                                                         Delete
                                                     </Button>
                                                 </TableCell>
@@ -118,6 +151,13 @@ export default function Index() {
                     </div>
                 </div>
             </div>
+
+            <DeleteCanalDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                canalName={selectedCanal?.name || ""}
+                onDelete={handleDelete}
+            />
         </AuthenticatedLayout>
     );
 }
