@@ -14,7 +14,7 @@ class CanalSeeder extends Seeder
     public function run(): void
     {
         Canal::factory()
-            ->count(10)
+            ->count(2)
             ->create();
     }
 }
