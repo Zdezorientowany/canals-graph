@@ -73,26 +73,25 @@ Start the Docker containers using Laravel Sail:
 ./vendor/bin/sail up -d
 ```
 
-Run migrations and seed the database (create database if necessary):
+### 5. Run migrations and seed the database (create database if necessary):
 
 ```bash
 ./vendor/bin/sail artisan migrate:fresh --seed
 ```
-
-#### 5. Build Frontend Assets
-
-```bash
-npm run dev
-```
-
-### 6. Generate App Key
+#### 6. Generate application key
 Run the following command to generate the application key:
 
 ```
 ./vendor/bin/sail artisan key:generate
 ```
 
-#### 7. Start the Application
+#### 7. Build Frontend Assets
+
+```bash
+npm run dev
+```
+
+#### 8. Start the Application
 
 The application should now be running at:
 
