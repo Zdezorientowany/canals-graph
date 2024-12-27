@@ -5,6 +5,7 @@ import {
     AlertDialogContent,
     AlertDialogFooter,
     AlertDialogHeader,
+    AlertDialogDescription,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
@@ -24,15 +25,12 @@ export default function DeleteCanalDialog({
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>
-                        Are you sure you want to delete this canal?
-                    </AlertDialogTitle>
-                </AlertDialogHeader>
-                <p>
-                    This action cannot be undone. It will permanently delete the
-                    canal <strong>{canalName}</strong>.
-                </p>
+                <AlertDialogTitle>Delete Canal</AlertDialogTitle>
+                <AlertDialogDescription>
+                    Are you sure you want to delete this canal? This action
+                    cannot be undone. It will permanently delete the canal{" "}
+                    <strong>{canalName}</strong>.
+                </AlertDialogDescription>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction onClick={onDelete}>

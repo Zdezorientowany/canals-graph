@@ -59,4 +59,23 @@ describe('Tests for CanalService', function () {
 
         expect(Canal::find($canal->id))->toBeNull();
     });
+
+    it('calculates graph data with percentages', function () {
+        Canal::factory()->create(['name' => 'Canal A', 'clients' => 100]);
+        Canal::factory()->create(['name' => 'Canal B', 'clients' => 60]);
+        Canal::factory()->create(['name' => 'Canal C', 'clients' => 40]);
+
+        $service = new CanalService(new Canal());
+        $graphData = $service->getGraphData();
+
+        expect($graphData)->toHaveCount(3);
+
+        $canalA = $graphData->firstWhere('name', 'Canal A');
+        $canalB = $graphData->firstWhere('name', 'Canal B');
+        $canalC = $graphData->firstWhere('name', 'Canal C');
+
+        expect($canalA->percentage)->toBe(50.0);
+        expect($canalB->percentage)->toBe(30.0);
+        expect($canalC->percentage)->toBe(20.0);
+    });
 });
