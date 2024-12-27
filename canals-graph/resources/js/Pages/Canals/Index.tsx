@@ -120,7 +120,7 @@ export default function Index() {
                                                         size="sm"
                                                         className="mr-2"
                                                         onClick={() =>
-                                                            router.visit(
+                                                            router.get(
                                                                 `/canals/${canal.id}/edit`
                                                             )
                                                         }
