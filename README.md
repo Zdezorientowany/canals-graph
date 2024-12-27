@@ -42,8 +42,8 @@ Follow these steps to set up and run the project locally.
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Zdezorientowany/canals-graph.git
-cd canalgraph
+git clone https://github.com/Zdezorientowany/canals-graph.git .
+cd canals-graph
 ```
 
 #### 2. Configure Environment
@@ -73,10 +73,10 @@ Start the Docker containers using Laravel Sail:
 ./vendor/bin/sail up -d
 ```
 
-Run migrations and seed the database:
+Run migrations and seed the database (create database if necessary):
 
 ```bash
-./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan migrate:fresh --seed
 ```
 
 #### 5. Build Frontend Assets
@@ -85,13 +85,21 @@ Run migrations and seed the database:
 npm run dev
 ```
 
-#### 6. Start the Application
+### 6. Generate App Key
+Run the following command to generate the application key:
+
+```
+./vendor/bin/sail artisan key:generate
+```
+
+#### 7. Start the Application
 
 The application should now be running at:
 
 ```
 http://localhost
 ```
+Now login via seeded user ("asd@asd.asd" with password "asd") or register
 
 ---
 
